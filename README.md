@@ -1,1 +1,1 @@
-# reinforcement-learning---prisoners-dilemma
+# Reinforcement-Learning-Prisoners-Dilemma
