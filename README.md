@@ -1,108 +1,53 @@
-Prisoners Dilemma
+# Prisoner's Dilemma
 
-	Prisoners Dilemma is one of the most famous dilemmas out there, where two prisoners are taken into separate rooms unable to communicate and each one is given the choice to either stay silent or betray the other prisoner. If both prisoners choose to stay silent, then each will go to prison for one year. If one chooses to betray and the other chooses to stay silent, then the betrayer will go free and the other prisoner will go to jail for 3 years. If both betray each other then both will go to jail for two years. The following diagram shows a summary of our dilemma.
+Prisoner's Dilemma is one of the most famous dilemmas where two prisoners are taken into separate rooms, unable to communicate, and each one is given the choice to either stay silent or betray the other prisoner. If both prisoners choose to stay silent, each will go to prison for one year. If one betrays and the other stays silent, the betrayer goes free, and the other prisoner goes to jail for 3 years. If both betray each other, both will go to jail for two years.
 
-Figure 1.1 (Prisoners Dilemma confusion matrix)
+## Dilemma Summary
 
-	This dilemma has huge real-life applications, especially in politics and business. We got curious about how a reinforcement learning agent would actually respond to it, and what it thinks the best decision is.
+| Our Agent | Opponent | Reward |
+|-----------|----------|--------|
+| Cooperate | Cooperate | 3      |
+| Cooperate | Defect    | 0      |
+| Defect    | Cooperate | 5      |
+| Defect    | Defect    | 1      |
 
-	Q-Table was not feasible as we have 2^10 states, so we opted for Q-Deep. Also, we wanted to put our hands in dirty neural networks code anyway.
+This dilemma has real-life applications in politics and business. We became curious about how a reinforcement learning (RL) agent would respond and what it considers the best decision.
 
-	We started by creating a set of strategies that a player can use when playing against our agent so our agent learns against one of our strategies listed above, not random choices. These strategies we picked are actual strategies that people made in Axelrod’s Tournament, a tournament made by Robert Axelrod in 1980, where he invited well-known game theorists to submit strategies. You can check it out here.
+We opted for Q-Deep learning, as a Q-Table was not feasible due to 2^10 states, and we were keen to explore neural networks.
 
-Tit for Tat
-Cooperates first then copies opponent’s last move.
-Cooperate
-Always cooperate.
-Random
-Tit for Two Tat
-Cooperates unless the opponent defected twice in a row.
-Grudger
-Cooperates until the opponent defects then always defects.
-Pavlov
-Win stay, Lose switch.
-Soft Grudger
-Cooperate until defect then defect 4 times then go back to cooperation.
-Fortress
-Defect unless the opponent's last two moves were cooperate
-Alternate
-Sneaky
-Cooperate then copy the opponent's last move, if the opponent cooperates, Sneaky has a 10% chance of defecting.
+## Strategies
 
-	After that, we started building the environment for our agent. The state is an array of our last 10 moves. The agent has two actions, whether to defect or cooperate (0 or 1). Each game consists of 200 rounds, our agent will try to win as many games as possible so we can then calculate its average win rate to indicate the performance of our model, where each win is a game in which the opponent gets to go to prison for more years than our agent.
-Note that we tried to have our state be the opponent’s last 10 moves, however, we found that a state that changes based on the agent's action is more effective.
+Our agent learns against these strategies, derived from Axelrod’s Tournament (1980):
 
-	The step function contains the changes happening in one round. It finds out the opponent's move and calculates the reward as follows: 
-Our agent
-Opponent
-Reward
-Cooperate
-Cooperate
-3
-Cooperate
-Defect
-0
-Defect
-Cooperate
-5
-Defect
-Defect
-1
+- **Tit for Tat**: Cooperates first, then copies the opponent’s last move.
+- **Cooperate**: Always cooperate.
+- **Random**: Random actions.
+- **Tit for Two Tat**: Cooperates unless the opponent defected twice in a row.
+- **Grudger**: Cooperates until the opponent defects, then always defects.
+- **Pavlov**: Win-stay, lose-switch.
+- **Soft Grudger**: Cooperates until defect, defects four times, then returns to cooperation.
+- **Fortress**: Defects unless the opponent's last two moves were to cooperate.
+- **Sneaky**: Cooperates, then copies the opponent's last move if they cooperated, with a 10% chance of defecting.
 
-Then it makes the needed changes for the state such that it keeps updating for each round. In the reset function, we complete the needed initializations for a new game.
+## Environment Setup
 
-	Our agent then played with random actions and we tested the average win rate which was around 0.4 against our strategies. After that, we built our model and used DQNAgent from Keras as a start (we later wrote our own deep-q code) where our agent made it to a 0.9 average win rate and converged after 50,000 iterations. We used BoltzmannQPolicy because it provides a good balance between exploration and exploitation.
+The state is an array of the last 10 moves, with two possible actions: defect or cooperate (0 or 1). Each game consists of 200 rounds, and the goal is to maximize the win rate by making the opponent spend more years in prison.
 
-	We then wrote our own DQNAgent class, utilizing a memory buffer, and a high exploration policy in the beginning that decays over time.
-Then we built a simple neural network that learns in mini batches, and tries to predict the next state of best quality based on its past experiences and chooses its action accordingly.
+## Results
 
-	We expanded our dilemma into adding a third player, so instead of having two prisoners, we now have three prisoners and each one is being investigated with in separate rooms, allowing each decision to make a difference in the other two prisoners state. In this environment, we had to change the strategies into the following:
-Tit_for_tat_all
-Tit_for_tat_any
-Tit_for_two_tat_any
-Tit_for_two_tat_all
-Soft_grudger_any
-Soft_grudger_all
+We initially tested our agent with random actions, achieving an average win rate of 0.4 against our strategies. After training with Deep Q-Networks (DQN) using a BoltzmannQPolicy, our agent achieved a win rate of 0.9 after 50,000 iterations.
 
-	The state now is a 2d array where each row represents the last 10 moves of one of the opponents. The rewards have changed as follows:
-Our agent
-Opponent 1
-Opponent 2
-Reward
-Cooperate
-Cooperate
-Cooperate
-4
-Cooperate
-Cooperate
-Defect
-0
-Cooperate
-Defect
-Cooperate
-0
-Cooperate
-Defect
-Defect
-0
-Defect
-Cooperate
-Cooperate
-10
-Defect
-Cooperate
-Defect
-5
-Defect
-Defect
-Cooperate
-5
-Defect
-Defect
-Defect
-2
+Later, we expanded the dilemma by adding a third player, requiring new strategies and a more complex state.
 
+| Our Agent | Opponent 1 | Opponent 2 | Reward |
+|-----------|------------|------------|--------|
+| Cooperate | Cooperate  | Cooperate  | 4      |
+| Cooperate | Cooperate  | Defect     | 0      |
+| Defect    | Cooperate  | Cooperate  | 10     |
+| Defect    | Defect     | Defect     | 2      |
 
-Our agent’s average win rate against opponents' strategy using random actions was 0.37. Then after training our model for 25,000 iterations and letting it converge, its average win rate increased to 1.
+The RL agent's performance improved with an average win rate of 1 after 25,000 iterations in this new environment.
 
-	In conclusion, our RL agent showed us that the optimal way to play Prisoners Dilemma is to try to catch the opponent off guard by defecting suddenly, and then playing defensively to maintain his lead.
+---
+
+**Authors**: Yazeed Karajih and Mohammad Doleh
