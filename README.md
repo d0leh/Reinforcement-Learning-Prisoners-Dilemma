@@ -1,5 +1,7 @@
 # Prisoner's Dilemma
 
+**Authors**: Mohammad Doleh and Yazeed Karajih @karajih
+
 Prisoner's Dilemma is one of the most famous dilemmas where two prisoners are taken into separate rooms, unable to communicate, and each one is given the choice to either stay silent or betray the other prisoner. If both prisoners choose to stay silent, each will go to prison for one year. If one betrays and the other stays silent, the betrayer goes free, and the other prisoner goes to jail for 3 years. If both betray each other, both will go to jail for two years.
 
 ## Dilemma Summary
@@ -49,5 +51,3 @@ Later, we expanded the dilemma by adding a third player, requiring new strategie
 The RL agent's performance improved with an average win rate of 1 after 25,000 iterations in this new environment.
 
 ---
-
-**Authors**: Yazeed Karajih and Mohammad Doleh
