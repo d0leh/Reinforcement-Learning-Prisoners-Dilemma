@@ -9,7 +9,7 @@ Prisoner's Dilemma is one of the most famous dilemmas where two prisoners are ta
 
 ![Prisoners Dilemma confusion matrix](images/image.png)
 
-For a better understanding of the dilemma, we recommend watching [this](https://youtu.be/t9Lo2fgxWHw?si=ayyzZPm-lHJGWmdM) YouTube video.
+For a better understanding of the dilemma, we recommend watching [this YouTube video](https://youtu.be/t9Lo2fgxWHw?si=ayyzZPm-lHJGWmdM).
 This dilemma has real-life applications in politics and business. We became curious about how a reinforcement learning (RL) agent would respond and what it considers the best decision.
 
 We opted for Q-Deep learning, as a Q-Table was not feasible due to 2^10 states.
