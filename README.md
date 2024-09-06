@@ -1,6 +1,6 @@
 # Prisoner's Dilemma
 
-**Authors**: Mohammad Doleh and Yazeed Karajih @karajih
+**Authors**: Mohammad Doleh and [Yazeed Karajih](https://github.com/karajih)
 
 Prisoner's Dilemma is one of the most famous dilemmas where two prisoners are taken into separate rooms, unable to communicate, and each one is given the choice to either stay silent or betray the other prisoner. If both prisoners choose to stay silent, each will go to prison for one year. If one betrays and the other stays silent, the betrayer goes free, and the other prisoner goes to jail for 3 years. If both betray each other, both will go to jail for two years.
 
